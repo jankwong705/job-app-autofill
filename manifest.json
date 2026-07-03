@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Application Autofill (Human-in-the-Loop)",
+  "version": "0.1.0",
+  "description": "Scans online application forms, matches fields to your saved answers with an LLM, and lets you review before filling.",
+  "permissions": ["activeTab", "scripting", "storage", "sidePanel"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "panel.html"
+  },
+  "action": {
+    "default_title": "Open Autofill panel"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {}
+}

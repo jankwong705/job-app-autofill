@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    :root { font-family: system-ui, sans-serif; font-size: 13px; }
+    body { margin: 0; padding: 12px; color: #1a1a1a; }
+    h1 { font-size: 15px; margin: 0 0 10px; }
+    button {
+      font-size: 13px; padding: 6px 10px; border-radius: 6px;
+      border: 1px solid #ccc; background: #fff; cursor: pointer;
+    }
+    button.primary { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+    button:disabled { opacity: .5; cursor: default; }
+    .row { display: flex; gap: 8px; margin-bottom: 10px; }
+    #status { color: #666; margin: 6px 0; min-height: 16px; }
+    .field {
+      border: 1px solid #e0e0e0; border-radius: 8px; padding: 8px;
+      margin-bottom: 8px;
+    }
+    .field .label { font-weight: 600; margin-bottom: 4px; }
+    .field .meta { color: #888; font-size: 11px; margin-bottom: 6px; }
+    .field input[type=text] { width: 100%; box-sizing: border-box; padding: 4px 6px; }
+    .conf { font-size: 11px; padding: 1px 6px; border-radius: 10px; margin-left: 6px; }
+    .conf.high { background: #e6f4ea; color: #137333; }
+    .conf.med  { background: #fef7e0; color: #b06000; }
+    .conf.low  { background: #fce8e6; color: #c5221f; }
+    .skip { color: #c5221f; }
+    label.chk { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Application Autofill</h1>
+  <div class="row">
+    <button id="scan" class="primary">Scan this page</button>
+    <button id="fill" disabled>Fill selected</button>
+  </div>
+  <div id="status">Load a form, then click Scan.</div>
+  <div id="fields"></div>
+  <script src="panel.js"></script>
+</body>
+</html>

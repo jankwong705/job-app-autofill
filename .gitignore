@@ -1,0 +1,7 @@
+# Personal secrets & data — never commit these.
+config.js
+answers.json
+
+# OS / editor cruft
+.DS_Store
+node_modules/

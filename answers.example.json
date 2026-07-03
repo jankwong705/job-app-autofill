@@ -1,0 +1,43 @@
+{
+  "_comment": "Copy relevant values in. The extension loads answers from chrome.storage if present, otherwise this file. 'description' helps the LLM match fields; 'sensitive: true' forces manual review and never auto-fills.",
+  "groups": {
+    "identity": {
+      "first_name":     { "value": "", "description": "Legal first / given name" },
+      "last_name":      { "value": "", "description": "Legal last / family / surname" },
+      "preferred_name": { "value": "", "description": "Preferred name or nickname" },
+      "email":          { "value": "", "description": "Email address" },
+      "phone":          { "value": "", "description": "Phone / mobile number" },
+      "linkedin":       { "value": "", "description": "LinkedIn profile URL" },
+      "portfolio":      { "value": "", "description": "Personal website, portfolio, or GitHub URL" }
+    },
+    "location": {
+      "address_line1": { "value": "", "description": "Street address" },
+      "city":          { "value": "", "description": "City of residence" },
+      "state":         { "value": "", "description": "State / province / region" },
+      "postal_code":   { "value": "", "description": "ZIP / postal code" },
+      "country":       { "value": "", "description": "Country of residence" }
+    },
+    "work_authorization": {
+      "authorized_to_work":   { "value": "", "description": "Are you legally authorized to work in this country? yes/no" },
+      "needs_sponsorship":    { "value": "", "description": "Will you now or in the future require visa sponsorship? yes/no" },
+      "visa_status":          { "value": "", "description": "Current immigration / work status, e.g. Citizen, Permanent Resident, H-1B, F-1 OPT" },
+      "non_compete":          { "value": "", "description": "Are you bound by any non-compete agreement? usually no" }
+    },
+    "logistics": {
+      "willing_to_relocate": { "value": "", "description": "Willing to relocate? yes/no" },
+      "work_arrangement":    { "value": "", "description": "Preference: remote / hybrid / onsite" },
+      "start_date":          { "value": "", "description": "Earliest available start date or notice period" },
+      "desired_salary":      { "value": "", "description": "Desired / expected salary or compensation" },
+      "over_18":             { "value": "", "description": "Are you at least 18 years old? yes/no" },
+      "drivers_license":     { "value": "", "description": "Do you have a valid driver's license? yes/no" },
+      "years_experience":    { "value": "", "description": "Total years of relevant work experience" },
+      "how_heard":           { "value": "", "description": "How did you hear about this role/company?" }
+    },
+    "demographics_voluntary": {
+      "gender":          { "value": "", "description": "Gender (voluntary EEO)", "sensitive": true },
+      "race_ethnicity":  { "value": "", "description": "Race / ethnicity (voluntary EEO)", "sensitive": true },
+      "veteran_status":  { "value": "", "description": "Veteran status (voluntary EEO)", "sensitive": true },
+      "disability_status": { "value": "", "description": "Disability status (voluntary EEO)", "sensitive": true }
+    }
+  }
+}
