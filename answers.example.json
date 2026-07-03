@@ -49,6 +49,14 @@
       "graduation_date": { "value": "", "description": "Graduation date or expected graduation date" },
       "certifications":  { "value": "", "description": "Relevant certifications, e.g. AWS, PMP, Scrum" }
     },
+    "skills": {
+      "programming_languages": { "value": "", "description": "Programming languages you know" },
+      "libraries_tools":       { "value": "", "description": "Libraries, frameworks, and tools you use" },
+      "technical_concepts":    { "value": "", "description": "Technical concepts / areas of expertise" }
+    },
+    "languages": {
+      "spoken_languages": { "value": "", "description": "Spoken languages and proficiency levels" }
+    },
     "legal_logistics_work_authorization": {
       "authorized_to_work": { "value": "", "description": "Are you legally authorized to work in the country? yes/no" },
       "needs_sponsorship":  { "value": "", "description": "Will you now or in the future require visa sponsorship? yes/no" },
