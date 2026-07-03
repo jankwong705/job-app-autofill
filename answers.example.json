@@ -1,43 +1,72 @@
 {
   "_comment": "Copy relevant values in. The extension loads answers from chrome.storage if present, otherwise this file. 'description' helps the LLM match fields; 'sensitive: true' forces manual review and never auto-fills.",
   "groups": {
-    "identity": {
-      "first_name":     { "value": "", "description": "Legal first / given name" },
-      "last_name":      { "value": "", "description": "Legal last / family / surname" },
-      "preferred_name": { "value": "", "description": "Preferred name or nickname" },
+    "contact_identity": {
+      "full_name":      { "value": "", "description": "Full legal name" },
+      "first_name":     { "value": "", "description": "First / given name (when the form splits name)" },
+      "last_name":      { "value": "", "description": "Last / family / surname (when the form splits name)" },
       "email":          { "value": "", "description": "Email address" },
       "phone":          { "value": "", "description": "Phone / mobile number" },
+      "city":           { "value": "", "description": "Current city" },
+      "state":          { "value": "", "description": "Current state / province / region" },
+      "country":        { "value": "", "description": "Current country" },
+      "address_line1":  { "value": "", "description": "Full physical street address (when required)" },
+      "postal_code":    { "value": "", "description": "ZIP / postal code" },
       "linkedin":       { "value": "", "description": "LinkedIn profile URL" },
-      "portfolio":      { "value": "", "description": "Personal website, portfolio, or GitHub URL" }
+      "github":         { "value": "", "description": "GitHub profile URL" },
+      "portfolio":      { "value": "", "description": "Portfolio / personal website URL" }
     },
-    "location": {
-      "address_line1": { "value": "", "description": "Street address" },
-      "city":          { "value": "", "description": "City of residence" },
-      "state":         { "value": "", "description": "State / province / region" },
-      "postal_code":   { "value": "", "description": "ZIP / postal code" },
-      "country":       { "value": "", "description": "Country of residence" }
+    "current_role": {
+      "current_job_title":   { "value": "", "description": "Current or most recent job title" },
+      "current_company":     { "value": "", "description": "Current or most recent company name" },
+      "current_start_date":  { "value": "", "description": "Start date of current/most recent role" },
+      "current_end_date":    { "value": "", "description": "End date of current/most recent role (leave blank if current)" },
+      "currently_work_here": { "value": "", "description": "Do you currently work here? yes/no" },
+      "current_description": { "value": "", "description": "Description / key achievements in current/most recent role" }
     },
-    "work_authorization": {
-      "authorized_to_work":   { "value": "", "description": "Are you legally authorized to work in this country? yes/no" },
-      "needs_sponsorship":    { "value": "", "description": "Will you now or in the future require visa sponsorship? yes/no" },
-      "visa_status":          { "value": "", "description": "Current immigration / work status, e.g. Citizen, Permanent Resident, H-1B, F-1 OPT" },
-      "non_compete":          { "value": "", "description": "Are you bound by any non-compete agreement? usually no" }
+    "past_role_1": {
+      "past1_job_title":   { "value": "", "description": "Previous job title (most recent prior role)" },
+      "past1_company":     { "value": "", "description": "Previous company name (most recent prior role)" },
+      "past1_dates":       { "value": "", "description": "Employment dates for previous role (most recent prior)" },
+      "past1_description": { "value": "", "description": "Description / achievements for previous role (most recent prior)" }
     },
-    "logistics": {
-      "willing_to_relocate": { "value": "", "description": "Willing to relocate? yes/no" },
-      "work_arrangement":    { "value": "", "description": "Preference: remote / hybrid / onsite" },
-      "start_date":          { "value": "", "description": "Earliest available start date or notice period" },
-      "desired_salary":      { "value": "", "description": "Desired / expected salary or compensation" },
-      "over_18":             { "value": "", "description": "Are you at least 18 years old? yes/no" },
-      "drivers_license":     { "value": "", "description": "Do you have a valid driver's license? yes/no" },
-      "years_experience":    { "value": "", "description": "Total years of relevant work experience" },
-      "how_heard":           { "value": "", "description": "How did you hear about this role/company?" }
+    "past_role_2": {
+      "past2_job_title":   { "value": "", "description": "Job title for the role before that" },
+      "past2_company":     { "value": "", "description": "Company name for the role before that" },
+      "past2_dates":       { "value": "", "description": "Employment dates for the role before that" },
+      "past2_description": { "value": "", "description": "Description / achievements for the role before that" }
     },
-    "demographics_voluntary": {
-      "gender":          { "value": "", "description": "Gender (voluntary EEO)", "sensitive": true },
-      "race_ethnicity":  { "value": "", "description": "Race / ethnicity (voluntary EEO)", "sensitive": true },
-      "veteran_status":  { "value": "", "description": "Veteran status (voluntary EEO)", "sensitive": true },
-      "disability_status": { "value": "", "description": "Disability status (voluntary EEO)", "sensitive": true }
+    "experience_quantifiers": {
+      "years_experience":       { "value": "", "description": "How many years of professional experience do you have?" },
+      "years_key_skill":        { "value": "", "description": "How many years of experience with your primary programming language / skill?" },
+      "team_leadership":        { "value": "", "description": "Do you have experience managing a team or leading projects? yes/no" },
+      "environment_experience": { "value": "", "description": "Have you worked in a remote / agile / enterprise environment before? yes/no" }
+    },
+    "education_certifications": {
+      "highest_degree":  { "value": "", "description": "Highest degree achieved: High School, Bachelor's, Master's, PhD" },
+      "school_name":     { "value": "", "description": "School / university name" },
+      "field_of_study":  { "value": "", "description": "Major / field of study" },
+      "graduation_date": { "value": "", "description": "Graduation date or expected graduation date" },
+      "certifications":  { "value": "", "description": "Relevant certifications, e.g. AWS, PMP, Scrum" }
+    },
+    "legal_logistics_work_authorization": {
+      "authorized_to_work": { "value": "", "description": "Are you legally authorized to work in the country? yes/no" },
+      "needs_sponsorship":  { "value": "", "description": "Will you now or in the future require visa sponsorship? yes/no" },
+      "desired_salary":     { "value": "", "description": "Desired salary / compensation range" },
+      "start_date":         { "value": "", "description": "Notice period / earliest available start date" },
+      "work_arrangement":   { "value": "", "description": "Preferred work location model: Remote, Hybrid, or On-site" },
+      "prior_employee":     { "value": "", "description": "Have you ever been employed by this company or its subsidiaries in the past? yes/no" },
+      "over_18":            { "value": "", "description": "Are you 18 years of age or older? yes/no" }
+    },
+    "voluntary_disclosures_eeoc": {
+      "gender_identity":   { "value": "", "description": "Gender identity: Male, Female, Non-binary, Not Disclosed", "sensitive": true },
+      "race_ethnicity":    { "value": "", "description": "Race/Ethnicity: White, Black/African American, Hispanic/Latino, Asian, American Indian/Alaska Native, Native Hawaiian/Pacific Islander, Two or More Races, Not Disclosed", "sensitive": true },
+      "veteran_status":    { "value": "", "description": "Veteran status: Protected Veteran, Not a Veteran, Not Disclosed", "sensitive": true },
+      "disability_status": { "value": "", "description": "Disability status: Yes I have a disability (or history of one), No, Not Disclosed", "sensitive": true }
+    },
+    "sourcing_referrals": {
+      "how_heard":     { "value": "", "description": "How did you hear about this position?" },
+      "referral_name": { "value": "", "description": "If referred by a current employee, their name" }
     }
   }
 }
