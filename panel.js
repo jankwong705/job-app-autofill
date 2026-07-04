@@ -26,6 +26,29 @@ async function activeTab() {
   return tab;
 }
 
+// Send a message to every frame in the tab (top document + iframes) and collect
+// the responses. Frames without our content script (e.g. about:blank, cross-origin
+// ad frames) will reject — we just skip those.
+async function sendToAllFrames(tabId, message) {
+  let frames = [];
+  try {
+    frames = await chrome.webNavigation.getAllFrames({ tabId });
+  } catch {
+    frames = [{ frameId: 0 }];
+  }
+  const results = await Promise.all(
+    frames.map(async (f) => {
+      try {
+        const resp = await chrome.tabs.sendMessage(tabId, message, { frameId: f.frameId });
+        return { frameId: f.frameId, resp };
+      } catch {
+        return null; // no listener in this frame
+      }
+    })
+  );
+  return results.filter(Boolean);
+}
+
 function confClass(c) { return c >= 0.75 ? 'high' : c >= 0.4 ? 'med' : 'low'; }
 
 function render() {
@@ -73,8 +96,11 @@ $('scan').addEventListener('click', async () => {
     answers = await loadAnswers();
     const tab = await activeTab();
 
-    const { fields } = await chrome.tabs.sendMessage(tab.id, { type: 'SCRAPE' });
-    scraped = fields || [];
+    // Scrape the top document plus every iframe, tagging each field with its frame.
+    const perFrame = await sendToAllFrames(tab.id, { type: 'SCRAPE' });
+    scraped = perFrame.flatMap(({ frameId, resp }) =>
+      (resp?.fields || []).map(f => ({ ...f, frameId }))
+    );
     if (!scraped.length) { statusEl.textContent = 'No fillable fields found.'; return; }
 
     statusEl.textContent = `Found ${scraped.length} fields. Matching with Gemini…`;
@@ -104,11 +130,24 @@ $('scan').addEventListener('click', async () => {
 });
 
 $('fill').addEventListener('click', async () => {
-  const items = proposals
-    .filter(p => p.accepted && p.value !== '')
-    .map(p => ({ selector: p.field.selector, value: p.value }));
-  if (!items.length) return;
+  const accepted = proposals.filter(p => p.accepted && p.value !== '');
+  if (!accepted.length) return;
   const tab = await activeTab();
-  const { filled } = await chrome.tabs.sendMessage(tab.id, { type: 'FILL', items });
+
+  // Group by frame so each selector is resolved in the document it came from.
+  const byFrame = new Map();
+  for (const p of accepted) {
+    const fid = p.field.frameId ?? 0;
+    if (!byFrame.has(fid)) byFrame.set(fid, []);
+    byFrame.get(fid).push({ selector: p.field.selector, value: p.value });
+  }
+
+  let filled = 0;
+  await Promise.all([...byFrame].map(async ([frameId, items]) => {
+    try {
+      const resp = await chrome.tabs.sendMessage(tab.id, { type: 'FILL', items }, { frameId });
+      filled += resp?.filled || 0;
+    } catch { /* frame went away */ }
+  }));
   statusEl.textContent = `Filled ${filled} fields. Review the page, then submit yourself.`;
 });

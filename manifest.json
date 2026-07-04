@@ -3,7 +3,7 @@
   "name": "Application Autofill (Human-in-the-Loop)",
   "version": "0.1.0",
   "description": "Scans online application forms, matches fields to your saved answers with an LLM, and lets you review before filling.",
-  "permissions": ["activeTab", "scripting", "storage", "sidePanel"],
+  "permissions": ["activeTab", "scripting", "storage", "sidePanel", "webNavigation"],
   "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "background.js",
@@ -19,7 +19,8 @@
     {
       "matches": ["<all_urls>"],
       "js": ["content.js"],
-      "run_at": "document_idle"
+      "run_at": "document_idle",
+      "all_frames": true
     }
   ],
   "icons": {}
