@@ -12,9 +12,11 @@ const SKIP_TYPES = new Set([
 
 // Find the best human-readable label for a field.
 function labelFor(el) {
-  // 1) <label for="id">
-  if (el.id) {
-    const l = document.querySelector(`label[for="${CSS.escape(el.id)}"]`);
+  // 1) <label for="..."> matching the id OR the name.
+  //    Many React forms (Ashby, etc.) point `for` at the field's name, not its id.
+  for (const ref of [el.id, el.name]) {
+    if (!ref) continue;
+    const l = document.querySelector(`label[for="${CSS.escape(ref)}"]`);
     if (l && l.innerText.trim()) return l.innerText.trim();
   }
   // 2) wrapping <label>
@@ -27,12 +29,26 @@ function labelFor(el) {
     const ref = document.getElementById(labelledby);
     if (ref && ref.innerText.trim()) return ref.innerText.trim();
   }
-  // 4) nearest preceding text (best effort)
-  const prev = el.previousElementSibling;
-  if (prev && prev.innerText && prev.innerText.trim().length < 120) {
-    return prev.innerText.trim();
+  // 4) nearest preceding text — check the field's own previous sibling AND
+  //    the wrapper's, since the input is often nested in a <div> under the label.
+  for (const start of [el, el.parentElement]) {
+    const prev = start && start.previousElementSibling;
+    if (prev && prev.innerText && prev.innerText.trim().length < 120) {
+      return prev.innerText.trim();
+    }
   }
   return '';
+}
+
+// Reliable visibility test. offsetParent is null for many *visible* elements
+// (position:fixed ancestors, transform/contain containers), so don't rely on it.
+function isVisible(el) {
+  const style = window.getComputedStyle(el);
+  if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
+    return false;
+  }
+  const rect = el.getBoundingClientRect();
+  return rect.width > 0 && rect.height > 0;
 }
 
 // Stable-ish selector so we can find the element again at fill time.
@@ -49,7 +65,7 @@ function scrape() {
     const type = (el.getAttribute('type') || el.tagName.toLowerCase());
     if (SKIP_TYPES.has(type)) return;
     if (el.disabled || el.readOnly) return;
-    if (el.offsetParent === null && el.type !== 'hidden') return; // not visible
+    if (!isVisible(el)) return;
 
     const field = {
       selector: selectorFor(el, index),
