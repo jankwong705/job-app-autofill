@@ -11,7 +11,7 @@ const statusEl = $('status');
 async function loadAnswers() {
   const stored = await chrome.storage.local.get('answers');
   if (stored.answers) return stored.answers;
-  const res = await fetch(chrome.runtime.getURL('answers.example.json'));
+  const res = await fetch(chrome.runtime.getURL('answers.json'));
   const json = await res.json();
   // Flatten the grouped example into { key: {...} }.
   const flat = {};
